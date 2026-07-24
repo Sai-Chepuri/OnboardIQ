@@ -1,0 +1,52 @@
+[
+  {
+    "client_msg_id": "m1",
+    "type": "message",
+    "user": "U03I4J5K6L",
+    "text": "Hey team, I'm trying to run the payment gateway locally, but I get database connection errors. Anybody know what's going on?",
+    "ts": "1782045600.000100",
+    "reply_count": 3,
+    "replies": [
+      {
+        "user": "U01A2B3C4D",
+        "ts": "1782045650.000200"
+      },
+      {
+        "user": "U03I4J5K6L",
+        "ts": "1782045700.000300"
+      },
+      {
+        "user": "U01A2B3C4D",
+        "ts": "1782045800.000400"
+      }
+    ]
+  },
+  {
+    "type": "message",
+    "user": "U01A2B3C4D",
+    "text": "Hey <@U03I4J5K6L>, did you run the migrations? Usually you need to run `npm run db:migrate` before the app starts.",
+    "ts": "1782045650.000200",
+    "thread_ts": "1782045600.000100"
+  },
+  {
+    "type": "message",
+    "user": "U03I4J5K6L",
+    "text": "Thanks <@U01A2B3C4D>! Yes, I tried that but I get `relation transactions does not exist`. Did something change in the schema?",
+    "ts": "1782045700.000300",
+    "thread_ts": "1782045600.000100"
+  },
+  {
+    "type": "message",
+    "user": "U01A2B3C4D",
+    "text": "Ah, yes. David merged ADR 004 yesterday. You need to reset the dev database first by running `npm run db:reset` because we modified the primary key constraint on transactions.",
+    "ts": "1782045800.000400",
+    "thread_ts": "1782045600.000100"
+  },
+  {
+    "client_msg_id": "m2",
+    "type": "message",
+    "user": "U02E3F4G5H",
+    "text": "Just a reminder: deployment freeze starts this Friday at 5 PM for the summer holiday weekend. No deploys to prod until Tuesday!",
+    "ts": "1782060000.000100"
+  }
+]

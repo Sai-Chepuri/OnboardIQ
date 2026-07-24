@@ -1,0 +1,17 @@
+{
+  "U01A2B3C4D": {
+    "real_name": "Alice Vance",
+    "title": "Senior DevOps Lead",
+    "name": "alice.v"
+  },
+  "U02E3F4G5H": {
+    "real_name": "Sarah Connor",
+    "title": "Engineering Manager",
+    "name": "sarah.c"
+  },
+  "U03I4J5K6L": {
+    "real_name": "John Doe",
+    "title": "Junior Backend Engineer",
+    "name": "john.d"
+  }
+}
