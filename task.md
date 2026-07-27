@@ -1,0 +1,25 @@
+# Tasks - OnboardIQ Implementation Checklist
+
+- [x] Environment Setup & Dependency Installation
+- [x] Create `generate_dummy_data.py` & Generate Dataset
+  - [x] Markdown technical documents
+  - [x] Notion Markdown files with metadata frontmatter
+  - [x] Confluence HTML files with metadata, headers, tables, and notes
+  - [x] Slack JSON logs with channel configurations, usernames, and threaded message blocks
+- [x] Implement `config.py`
+- [x] Implement Custom Parsers & Loaders
+  - [x] `slack_loader.py` (threads and users aggregation)
+  - [x] `confluence_loader.py` (BeautifulSoup HTML parsing of tables and headers)
+- [x] Implement `chunker.py` (Header-aware + Recursive split)
+- [x] Implement `indexer.py` (Incremental indexing with LangChain SQLRecordManager)
+- [ ] Implement `reranker.py` (Custom compressor with local `bge-reranker-base`)
+- [ ] Implement `retriever.py` (Dense + Sparse BM25 + Ensemble RRF + Reranking compressor)
+- [ ] Implement `generator.py` (Grounded generation LCEL chain with citation prompts)
+- [ ] Implement `evaluator.py` (RAGAS evaluation runner)
+- [ ] Implement `pipeline.py` (CLI runner for ingestion, querying, and evaluation)
+- [ ] Implement `app.py` (Streamlit interactive UI & debug dashboard)
+- [ ] Verification & Testing
+  - [ ] Run end-to-end ingestion and verify SQLite hash registry
+  - [ ] Run queries and verify source-grounded answers
+  - [ ] Run RAGAS evaluations and inspect metrics
+- [ ] Document final changes in `walkthrough.md`
