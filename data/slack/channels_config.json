@@ -1,0 +1,9 @@
+{
+  "deployment-ops": {
+    "access_roles": [
+      "engineering",
+      "ops",
+      "admin"
+    ]
+  }
+}

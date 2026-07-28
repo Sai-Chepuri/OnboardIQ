@@ -6,6 +6,7 @@
     <meta name="confluence-page-id" content="8891023">
     <meta name="confluence-author" content="Marcus Vance">
     <meta name="confluence-last-modified" content="2026-07-15">
+    <meta name="confluence-access-roles" content="ops,admin">
 </head>
 <body>
     <h1>Production Release & Deploy Runbook</h1>
@@ -18,37 +19,5 @@
     
     <h2>Deployment Steps</h2>
     <p>We deploy using Kubernetes helm charts on Wednesdays at 06:00 UTC.</p>
-    
-    <ol>
-        <li>Check the health dashboard at <pre>https://status.internal.company.com</pre> to ensure no active outages.</li>
-        <li>Trigger the deploy job in Jenkins: <pre>build-deploy-prod-service</pre>.</li>
-        <li>Run migration verification tasks:
-            <pre>kubectl exec -it deployment/payment-service-deployment -- npm run db:migrate:status</pre>
-        </li>
-    </ol>
-
-    <h2>Deploy Metrics & Verification</h2>
-    <p>Monitor Datadog dashboard for 15 minutes post-deployment. Ensure that:</p>
-    <table class="confluenceTable">
-        <thead>
-            <tr>
-                <th class="confluenceTh">Metric</th>
-                <th class="confluenceTh">Expected Threshold</th>
-                <th class="confluenceTh">Action if Violated</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="confluenceTd">HTTP 5xx Error Rate</td>
-                <td class="confluenceTd">&lt; 0.05%</td>
-                <td class="confluenceTd">Rollback immediately using <code>helm rollback payments 1</code></td>
-            </tr>
-            <tr>
-                <td class="confluenceTd">API Latency (p99)</td>
-                <td class="confluenceTd">&lt; 250ms</td>
-                <td class="confluenceTd">Check DB connection pool saturation in RDS graphs</td>
-            </tr>
-        </tbody>
-    </table>
 </body>
 </html>

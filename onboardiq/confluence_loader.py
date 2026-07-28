@@ -80,11 +80,17 @@ class ConfluenceHTMLLoader:
         meta_page_id = soup.find("meta", attrs={"name": "confluence-page-id"})
         meta_author = soup.find("meta", attrs={"name": "confluence-author"})
         meta_modified = soup.find("meta", attrs={"name": "confluence-last-modified"})
+        meta_roles = soup.find("meta", attrs={"name": "confluence-access-roles"})
 
         space = meta_space.get("content", "Unknown") if meta_space else "Unknown"
         page_id = meta_page_id.get("content", "Unknown") if meta_page_id else "Unknown"
         author = meta_author.get("content", "Unknown") if meta_author else "Unknown"
         last_modified = meta_modified.get("content", "Unknown") if meta_modified else "Unknown"
+        
+        if meta_roles:
+            access_roles = [r.strip() for r in meta_roles.get("content", "").split(",") if r.strip()]
+        else:
+            access_roles = ["all"]
 
         # Title extraction
         title_tag = soup.find("title")
@@ -121,7 +127,8 @@ class ConfluenceHTMLLoader:
             "space": space,
             "page_id": page_id,
             "author": author,
-            "last_modified": last_modified
+            "last_modified": last_modified,
+            "access_roles": access_roles
         }
         
         return [Document(page_content=formatted_content, metadata=metadata)]

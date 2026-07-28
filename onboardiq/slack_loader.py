@@ -10,12 +10,21 @@ class SlackDirectoryLoader:
     def __init__(self, slack_dir_path: Path):
         self.slack_dir_path = Path(slack_dir_path)
         self.users = self._load_users()
+        self.channels_config = self._load_channels_config()
 
     def _load_users(self) -> Dict[str, Dict[str, str]]:
         """Loads user ID mapping from users.json."""
         users_file = self.slack_dir_path / "users.json"
         if users_file.exists():
             with open(users_file, "r", encoding="utf-8") as f:
+                return json.load(f)
+        return {}
+
+    def _load_channels_config(self) -> Dict[str, Dict[str, Any]]:
+        """Loads channel roles and configurations from channels_config.json."""
+        config_file = self.slack_dir_path / "channels_config.json"
+        if config_file.exists():
+            with open(config_file, "r", encoding="utf-8") as f:
                 return json.load(f)
         return {}
 
@@ -38,9 +47,9 @@ class SlackDirectoryLoader:
         """Loads and parses all channel JSON files in the Slack directory."""
         documents = []
         
-        # Iterate over all JSON files except users.json
+        # Iterate over all JSON files except users.json and channels_config.json
         for file_path in self.slack_dir_path.glob("*.json"):
-            if file_path.name == "users.json":
+            if file_path.name in ["users.json", "channels_config.json"]:
                 continue
                 
             channel_name = file_path.stem
@@ -50,6 +59,9 @@ class SlackDirectoryLoader:
             except Exception as e:
                 print(f"Error loading Slack log {file_path}: {e}")
                 continue
+
+            # Load roles for this channel
+            channel_roles = self.channels_config.get(channel_name, {}).get("access_roles", ["all"])
 
             # Group messages into threads
             threads: Dict[str, Dict[str, Any]] = {}
@@ -113,7 +125,8 @@ class SlackDirectoryLoader:
                     "channel": channel_name,
                     "thread_id": thread_id,
                     "timestamp": parent.get("ts"),
-                    "author": parent_author
+                    "author": parent_author,
+                    "access_roles": channel_roles
                 }
                 documents.append(Document(page_content=formatted_text, metadata=metadata))
 
@@ -130,7 +143,8 @@ class SlackDirectoryLoader:
                     "type": "slack",
                     "channel": channel_name,
                     "timestamp": msg.get("ts"),
-                    "author": author
+                    "author": author,
+                    "access_roles": channel_roles
                 }
                 documents.append(Document(page_content=formatted_text, metadata=metadata))
 

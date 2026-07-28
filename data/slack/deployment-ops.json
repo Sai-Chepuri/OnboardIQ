@@ -41,12 +41,5 @@
     "text": "Ah, yes. David merged ADR 004 yesterday. You need to reset the dev database first by running `npm run db:reset` because we modified the primary key constraint on transactions.",
     "ts": "1782045800.000400",
     "thread_ts": "1782045600.000100"
-  },
-  {
-    "client_msg_id": "m2",
-    "type": "message",
-    "user": "U02E3F4G5H",
-    "text": "Just a reminder: deployment freeze starts this Friday at 5 PM for the summer holiday weekend. No deploys to prod until Tuesday!",
-    "ts": "1782060000.000100"
   }
 ]

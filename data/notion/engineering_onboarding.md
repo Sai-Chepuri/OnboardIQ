@@ -4,6 +4,7 @@ Author: Sarah Connor (Engineering Manager)
 Status: Active
 Created: 2026-01-10
 Tags: [onboarding, team-eng, setup]
+Access-Roles: [engineering, admin]
 ---
 
 # Engineering Onboarding Checklist
@@ -17,11 +18,3 @@ Welcome to the Engineering team! This page outlines your tasks for your first tw
    ```bash
    make setup-dev
    ```
-
-## Week 1: Environment Bootstrapping
-* Ask team lead for access to Doppler for local environment variables.
-* Run the initial migration on the local database:
-   ```bash
-   npm run db:migrate
-   ```
-* If you run into `ERR_CONN_REFUSED` on port `5432`, ensure your Docker container `postgres-db` is running by checking `docker ps`.

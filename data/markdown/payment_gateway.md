@@ -1,4 +1,5 @@
 # Payment Gateway API Integration Guide
+Access-Roles: [engineering, ops, admin]
 
 This document describes how to integrate the Core Payment Gateway into internal services.
 
@@ -29,22 +30,3 @@ Create a payment session to accept checkout transactions.
 | `amount` | integer | Amount in cents (e.g. 1000 for $10.00) | Yes |
 | `currency` | string | ISO 4-letter currency code (e.g. `USD`) | Yes |
 | `idempotency_key` | string | Unique UUID to prevent double-charging | Yes |
-
-* **Example Request:**
-```json
-{
-  "amount": 5000,
-  "currency": "USD",
-  "idempotency_key": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
-}
-```
-
-* **Example Response:**
-```json
-{
-  "id": "pi_908234",
-  "status": "requires_payment_method",
-  "amount": 5000,
-  "client_secret": "pi_908234_secret_12345"
-}
-```
