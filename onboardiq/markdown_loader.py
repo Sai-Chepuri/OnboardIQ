@@ -38,6 +38,7 @@ class MarkdownFrontmatterLoader:
                 data = yaml.safe_load(frontmatter_text)
                 if isinstance(data, dict):
                     # Clean and copy keys
+                    import datetime
                     for k, v in data.items():
                         key_lower = k.lower().replace("-", "_")
                         
@@ -50,7 +51,10 @@ class MarkdownFrontmatterLoader:
                         elif key_lower == "tags" and isinstance(v, list):
                             metadata["tags"] = [str(item).strip() for item in v]
                         else:
-                            metadata[key_lower] = v
+                            if isinstance(v, (datetime.date, datetime.datetime)):
+                                metadata[key_lower] = v.isoformat()
+                            else:
+                                metadata[key_lower] = v
             except Exception as e:
                 print(f"Error parsing frontmatter in {self.file_path}: {e}")
         else:
