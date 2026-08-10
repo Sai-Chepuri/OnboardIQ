@@ -11,10 +11,11 @@ from onboardiq.config import BM25_INDEX_PATH
 from onboardiq.reranker import LLMReranker
 
 class RBACRetriever(BaseRetriever):
-    """LangChain Retriever wrapper that filters document chunks based on user roles (RBAC)."""
+    """LangChain Retriever wrapper that filters document chunks based on user roles (RBAC) and metadata attributes."""
     
     base_retriever: BaseRetriever
     user_role: str = "all"
+    metadata_filter: Optional[dict] = None
 
     class Config:
         arbitrary_types_allowed = True
@@ -37,7 +38,23 @@ class RBACRetriever(BaseRetriever):
                 or user_role_lower == "admin" 
                 or user_role_lower in allowed_roles_lower
             ):
-                filtered_docs.append(doc)
+                # Apply optional manual metadata key-value checks (e.g. type, channel, source)
+                if self.metadata_filter:
+                    match = True
+                    for filter_key, filter_val in self.metadata_filter.items():
+                        # Handle case-insensitive values if they are strings
+                        val = doc.metadata.get(filter_key)
+                        if isinstance(val, str) and isinstance(filter_val, str):
+                            if val.lower() != filter_val.lower():
+                                match = False
+                                break
+                        elif val != filter_val:
+                            match = False
+                            break
+                    if match:
+                        filtered_docs.append(doc)
+                else:
+                    filtered_docs.append(doc)
             else:
                 print(f"[RBAC Alert] Filtered out document {doc.metadata.get('source')} for role '{self.user_role}'")
                 

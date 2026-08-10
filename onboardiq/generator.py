@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.documents import Document
@@ -46,7 +46,8 @@ def answer_query(
     chat_llm: BaseChatModel,
     fast_llm: BaseChatModel,
     hybrid_retriever,
-    top_n: int = 3
+    top_n: int = 3,
+    metadata_filter: Optional[dict] = None
 ) -> Tuple[str, List[Document]]:
     """Enforces RBAC role checks, retrieves hybrid search matches, reranks them, and generates a cited response.
     
@@ -56,7 +57,8 @@ def answer_query(
     # 1. Wrap hybrid retriever in role-based access control (RBAC) filter
     rbac_retriever = RBACRetriever(
         base_retriever=hybrid_retriever,
-        user_role=user_role
+        user_role=user_role,
+        metadata_filter=metadata_filter
     )
     
     # 2. Chain the RBAC retriever with the list-wise LLM reranker

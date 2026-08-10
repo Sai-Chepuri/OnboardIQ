@@ -14,12 +14,12 @@
 - [x] Implement `indexer.py` (Incremental indexing with LangChain SQLRecordManager)
 - [x] Implement `reranker.py` (Custom compressor with local `bge-reranker-base` / LLM reranker)
 - [x] Implement `retriever.py` (Dense + Sparse BM25 + Ensemble RRF + Reranking compressor)
-- [ ] Implement `generator.py` (Grounded generation LCEL chain with citation prompts)
-- [ ] Implement `evaluator.py` (RAGAS evaluation runner)
-- [ ] Implement `pipeline.py` (CLI runner for ingestion, querying, and evaluation)
-- [ ] Implement `app.py` (Streamlit interactive UI & debug dashboard)
-- [ ] Verification & Testing
-  - [ ] Run end-to-end ingestion and verify SQLite hash registry
-  - [ ] Run queries and verify source-grounded answers
-  - [ ] Run RAGAS evaluations and inspect metrics
+- [x] Implement `generator.py` (Grounded generation LCEL chain with citation prompts)
+- [x] Implement `evaluator.py` (RAGAS evaluation runner / Custom LLM Judge)
+- [x] Implement `pipeline.py` (CLI runner for ingestion, querying, and evaluation)
+- [x] Implement `app.py` (Streamlit interactive UI & debug dashboard)
+- [x] Verification & Testing
+  - [x] Run end-to-end ingestion and verify SQLite hash registry
+  - [x] Run queries and verify source-grounded answers
+  - [x] Run RAGAS evaluations and inspect metrics
 - [ ] Document final changes in `walkthrough.md`
