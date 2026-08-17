@@ -1,0 +1,32 @@
+# Environment & Secrets
+.env
+*.env
+
+# Python Bytecode & Cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+
+# Database files & generated indexes
+db/
+*.db
+*.pkl
+
+# IDE / Tooling / Agent artifacts
+.DS_Store
+.idea/
+.vscode/
+.agents/
+.claude/
+.gemini/
+
+# Scratch directory
+onboardiq/scratch/
+scratch/
