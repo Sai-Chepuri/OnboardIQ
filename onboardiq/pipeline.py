@@ -27,18 +27,20 @@ def load_documents_from_workspace() -> List[Document]:
     # 1. Load standard markdown files
     markdown_dir = DATA_DIR / "markdown"
     if markdown_dir.exists():
-        for file_path in markdown_dir.glob("**/*.md"):
-            print(f"[Ingest] Loading Markdown: {file_path.relative_to(DATA_DIR)}")
-            loader = MarkdownFrontmatterLoader(file_path)
-            docs.extend(loader.load())
+        for ext in ("**/*.md", "**/*.mdx"):
+            for file_path in markdown_dir.glob(ext):
+                print(f"[Ingest] Loading Markdown: {file_path.relative_to(DATA_DIR)}")
+                loader = MarkdownFrontmatterLoader(file_path)
+                docs.extend(loader.load())
 
     # 2. Load Notion markdown files
     notion_dir = DATA_DIR / "notion"
     if notion_dir.exists():
-        for file_path in notion_dir.glob("**/*.md"):
-            print(f"[Ingest] Loading Notion Page: {file_path.relative_to(DATA_DIR)}")
-            loader = MarkdownFrontmatterLoader(file_path)
-            docs.extend(loader.load())
+        for ext in ("**/*.md", "**/*.mdx"):
+            for file_path in notion_dir.glob(ext):
+                print(f"[Ingest] Loading Notion Page: {file_path.relative_to(DATA_DIR)}")
+                loader = MarkdownFrontmatterLoader(file_path)
+                docs.extend(loader.load())
 
     # 3. Load Confluence HTML exports
     confluence_dir = DATA_DIR / "confluence"
