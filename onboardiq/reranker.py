@@ -52,7 +52,17 @@ Sort the indices [0 to {len(documents)-1}] by relevance to the query. Return ONL
                 {"role": "user", "content": user_prompt}
             ])
             
-            content = response.content.strip()
+            content = response.content
+            if isinstance(content, list):
+                text_parts = []
+                for part in content:
+                    if isinstance(part, dict) and "text" in part:
+                        text_parts.append(part["text"])
+                    elif isinstance(part, str):
+                        text_parts.append(part)
+                content = "".join(text_parts)
+                
+            content = content.strip()
             # Remove markdown code block wrappers if any
             if content.startswith("```"):
                 content = re.sub(r"^```(?:json)?\n|```$", "", content, flags=re.MULTILINE).strip()

@@ -4,6 +4,11 @@ from pathlib import Path
 from typing import List
 from langchain_core.documents import Document
 
+# Add project root to sys.path to resolve onboardiq imports when run directly
+project_root = str(Path(__file__).resolve().parent.parent)
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
 from onboardiq.config import DATA_DIR, get_embeddings, get_llm
 from onboardiq.markdown_loader import MarkdownFrontmatterLoader
 from onboardiq.confluence_loader import ConfluenceHTMLLoader

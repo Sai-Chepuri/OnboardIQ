@@ -35,19 +35,27 @@ CHUNK_OVERLAP = 200
 # Model configurations
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 
-DEFAULT_PROVIDER = "gemini" if GEMINI_API_KEY else ("openai" if OPENAI_API_KEY else "mock")
+DEFAULT_PROVIDER = (
+    "gemini" if GEMINI_API_KEY 
+    else ("openai" if OPENAI_API_KEY 
+          else ("anthropic" if ANTHROPIC_API_KEY else "mock"))
+)
 
 # Embedding models
 OPENAI_EMBEDDING_MODEL = "text-embedding-3-small"
-GEMINI_EMBEDDING_MODEL = "models/text-embedding-004"
+GEMINI_EMBEDDING_MODEL = "gemini-embedding-001"
 
 # Generation & Reranking LLMs
 OPENAI_CHAT_MODEL = "gpt-4o"
 OPENAI_FAST_MODEL = "gpt-4o-mini"
 
-GEMINI_CHAT_MODEL = "gemini-1.5-pro"
-GEMINI_FAST_MODEL = "gemini-1.5-flash"
+GEMINI_CHAT_MODEL = "gemini-3.6-flash"
+GEMINI_FAST_MODEL = "gemini-3.6-flash"
+
+ANTHROPIC_CHAT_MODEL = "claude-3-5-sonnet-20241022"
+ANTHROPIC_FAST_MODEL = "claude-3-5-haiku-20241022"
 
 class MockEmbeddings(Embeddings):
     """Local API-free Mock Embeddings for offline testing."""
@@ -89,10 +97,12 @@ class MockChatModel(BaseChatModel):
 
 def get_embeddings():
     """Initializes and returns the configured LangChain embeddings class. Falls back to MockEmbeddings offline."""
-    if DEFAULT_PROVIDER == "gemini" and GEMINI_API_KEY:
+    # Note: Anthropic has no native embeddings API. We will use Gemini or OpenAI embeddings if keys exist,
+    # otherwise fallback to MockEmbeddings.
+    if GEMINI_API_KEY:
         from langchain_google_genai import GoogleGenerativeAIEmbeddings
         return GoogleGenerativeAIEmbeddings(model=GEMINI_EMBEDDING_MODEL, google_api_key=GEMINI_API_KEY)
-    elif DEFAULT_PROVIDER == "openai" and OPENAI_API_KEY:
+    elif OPENAI_API_KEY:
         from langchain_openai import OpenAIEmbeddings
         return OpenAIEmbeddings(model=OPENAI_EMBEDDING_MODEL, openai_api_key=OPENAI_API_KEY)
     else:
@@ -109,6 +119,10 @@ def get_llm(fast=False):
         from langchain_openai import ChatOpenAI
         model_name = OPENAI_FAST_MODEL if fast else OPENAI_CHAT_MODEL
         return ChatOpenAI(model=model_name, openai_api_key=OPENAI_API_KEY, temperature=0.0)
+    elif DEFAULT_PROVIDER == "anthropic" and ANTHROPIC_API_KEY:
+        from langchain_anthropic import ChatAnthropic
+        model_name = ANTHROPIC_FAST_MODEL if fast else ANTHROPIC_CHAT_MODEL
+        return ChatAnthropic(model=model_name, api_key=ANTHROPIC_API_KEY, temperature=0.0)
     else:
         print("[Notice] Running with API-free MockChatModel. Set API keys in .env for live chat completions.")
         return MockChatModel()
