@@ -41,10 +41,20 @@ class LLMJudgeEvaluator:
     def __init__(self, judge_llm):
         self.llm = judge_llm
 
-    def _parse_json_safely(self, text: str, default: Dict[str, Any]) -> Dict[str, Any]:
+    def _parse_json_safely(self, text: Any, default: Dict[str, Any]) -> Dict[str, Any]:
         """Utility to extract and parse JSON block from LLM responses."""
         try:
-            content = text.strip()
+            content = text
+            if isinstance(content, list):
+                text_parts = []
+                for part in content:
+                    if isinstance(part, dict) and "text" in part:
+                        text_parts.append(part["text"])
+                    elif isinstance(part, str):
+                        text_parts.append(part)
+                content = "".join(text_parts)
+                
+            content = content.strip()
             if content.startswith("```"):
                 content = re.sub(r"^```(?:json)?\n|```$", "", content, flags=re.MULTILINE).strip()
             return json.loads(content)

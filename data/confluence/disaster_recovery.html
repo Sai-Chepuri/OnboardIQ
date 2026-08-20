@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multi-Region Disaster Recovery Plan</title>
+    <meta name="confluence-space" content="OPS">
+    <meta name="confluence-page-id" content="9912803">
+    <meta name="confluence-author" content="Marcus Vance">
+    <meta name="confluence-access-roles" content="ops,admin">
+</head>
+<body>
+    <h1>Multi-Region Disaster Recovery Plan</h1>
+    <h2>Region Configuration</h2>
+    <ul>
+        <li><strong>Primary Region:</strong> AWS <code>us-east-1</code> (N. Virginia)</li>
+        <li><strong>Failover Region:</strong> AWS <code>ap-south-1</code> (Mumbai)</li>
+    </ul>
+    <h2>Target Metrics</h2>
+    <p>Our PostgreSQL Aurora global database setup is configured with an RTO (Recovery Time Objective) of 5 minutes and an RPO (Recovery Point Objective) of 1 minute.</p>
+</body>
+</html>

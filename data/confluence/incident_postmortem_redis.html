@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Incident Post-Mortem: Redis Outage (Incident #4821)</title>
+    <meta name="confluence-space" content="ENG">
+    <meta name="confluence-page-id" content="8821902">
+    <meta name="confluence-author" content="Sarah Connor">
+    <meta name="confluence-access-roles" content="engineering,ops,admin">
+</head>
+<body>
+    <h1>Incident Post-Mortem: Redis Outage (#4821)</h1>
+    <p><strong>Date:</strong> 2026-06-12</p>
+    <p><strong>Root Cause:</strong> Memory exhaustion occurred on server <code>redis-prod-01</code> in the AP-South region due to unbounded key storage in checkout transactions logging.</p>
+    <p><strong>Resolution:</strong> Enabled eviction policy <code>allkeys-lru</code> and set max memory cap to 4GB.</p>
+</body>
+</html>

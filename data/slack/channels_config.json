@@ -5,5 +5,23 @@
       "ops",
       "admin"
     ]
+  },
+  "general-announcements": {
+    "access_roles": [
+      "all"
+    ]
+  },
+  "dev-triage": {
+    "access_roles": [
+      "engineering",
+      "ops",
+      "admin"
+    ]
+  },
+  "security-alerts": {
+    "access_roles": [
+      "ops",
+      "admin"
+    ]
   }
 }

@@ -1,0 +1,33 @@
+[
+  {
+    "type": "message",
+    "user": "U03I4J5K6L",
+    "text": "Staging checkout API is showing latency spikes up to 4.5 seconds. Anyone else seeing this?",
+    "ts": "1782065600.000100",
+    "reply_count": 2,
+    "replies": [
+      {
+        "user": "U01A2B3C4D",
+        "ts": "1782065650.000200"
+      },
+      {
+        "user": "U03I4J5K6L",
+        "ts": "1782065700.000300"
+      }
+    ]
+  },
+  {
+    "type": "message",
+    "user": "U01A2B3C4D",
+    "text": "Yes, redis memory limits were reached. We need to clear the search query logs on redis-prod-01 to free up allocation.",
+    "ts": "1782065650.000200",
+    "thread_ts": "1782065600.000100"
+  },
+  {
+    "type": "message",
+    "user": "U03I4J5K6L",
+    "text": "Understood, running cache clearing command. Latency is back down to 120ms.",
+    "ts": "1782065700.000300",
+    "thread_ts": "1782065600.000100"
+  }
+]
